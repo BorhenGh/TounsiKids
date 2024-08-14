@@ -32,7 +32,11 @@ public class ProductService {
 
         }
         else {
-            throw new RuntimeException("Produit non trouvée avec l'ID : " + id);        }
+            throw new RuntimeException("Produit non trouvé avec l'ID : " + id);        }
     }
+
+public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+}
 
 }
