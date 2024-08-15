@@ -15,6 +15,6 @@ public class Notification {
     @ManyToOne
     private User admin;
     @ManyToOne
-    private Order order;
+    private Orders order;
     private boolean isRead;
 }

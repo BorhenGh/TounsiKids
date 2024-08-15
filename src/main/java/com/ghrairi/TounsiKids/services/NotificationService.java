@@ -1,7 +1,9 @@
 package com.ghrairi.TounsiKids.services;
 
+import com.ghrairi.TounsiKids.models.Enumeration.Role;
 import com.ghrairi.TounsiKids.models.Notification;
-import com.ghrairi.TounsiKids.models.Order;
+
+import com.ghrairi.TounsiKids.models.Orders;
 import com.ghrairi.TounsiKids.models.User;
 import com.ghrairi.TounsiKids.repository.NotificationRepository;
 import com.ghrairi.TounsiKids.repository.UserRepository;
@@ -20,24 +22,19 @@ public class NotificationService {
     @Autowired
     private UserRepository userRepository;
 
-    public Notification createNotification(Order order) {
+    public Notification createNotification(Orders orders) {
         // Trouver tous les utilisateurs avec le rôle "ROLE_ADMIN"
-        List<User> admins = userRepository.findByRoles_Name("ROLE_ADMIN");
+        List<User> admins = userRepository.findByRoles(Role.ROLE_ADMIN);
 
         // Utiliser findFirst() pour obtenir le premier administrateur
-        Optional<User> adminOptional = admins.stream().findFirst();
-
-        // Vérifier si un administrateur est présent, sinon lever une exception
-        if (!adminOptional.isPresent()) {
-            throw new ResourceNotFoundException("Admin not found");
-        }
-
-        User admin = adminOptional.get();
+        User admin = admins.stream()
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Admin not found"));
 
         // Créer et retourner la notification
         Notification notification = new Notification();
         notification.setAdmin(admin);
-        notification.setOrder(order);
+        notification.setOrder(orders);
         notification.setRead(false);
 
         return notificationRepository.save(notification);
