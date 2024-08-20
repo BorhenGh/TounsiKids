@@ -22,14 +22,16 @@ private final UserRepository repository;
     private final AuthenticationService service;
 
     @PostMapping("/register")
+
     public ResponseEntity<AuthenticationResponse> register(
-            @ModelAttribute RegisterRequest request,
-            @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+            @RequestPart("request") RegisterRequest request,
+            @RequestPart("imageFile") MultipartFile imageFile) throws IOException {
         if (repository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
         return ResponseEntity.ok(service.register(request, imageFile));
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
