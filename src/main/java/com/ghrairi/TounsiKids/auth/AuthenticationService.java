@@ -47,7 +47,7 @@ public class AuthenticationService {
                 .location(request.getLocation())
                 .email(request.getEmail())
                 .profileImage(imagePath)
-                .roles(request.getRole())
+                .role(request.getRole())
 
                 .build();
         var savedUser = repository.save(user);

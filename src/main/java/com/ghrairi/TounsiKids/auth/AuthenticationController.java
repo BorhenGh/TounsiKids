@@ -33,6 +33,7 @@ private final UserRepository repository;
     }
 
     @PostMapping("/authenticate")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {

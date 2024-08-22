@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Builder
@@ -29,7 +30,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Role roles; // "ADMIN" or "MEMBER"
+    private Role role; // "ADMIN" or "MEMBER"
 
     private String phone;
     private String location;
@@ -37,7 +38,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roles.name()));
+        if (role != null) {
+            return List.of(new SimpleGrantedAuthority(role.name()));
+        }
+        return Collections.emptyList();
     }
 
     @Override

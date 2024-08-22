@@ -24,7 +24,7 @@ public class NotificationService {
 
     public Notification createNotification(Orders orders) {
         // Trouver tous les utilisateurs avec le rôle "ROLE_ADMIN"
-        List<User> admins = userRepository.findByRoles(Role.ROLE_ADMIN);
+        List<User> admins = userRepository.findByRole(Role.ROLE_ADMIN);
 
         // Utiliser findFirst() pour obtenir le premier administrateur
         User admin = admins.stream()
